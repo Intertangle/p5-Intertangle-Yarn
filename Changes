@@ -2,3 +2,8 @@
   Features
 
    - First release.
+   - Uses Alien::Graphene to build .gir files on Windows and Travis CI (older
+     distribution). See
+       - <https://github.com/project-renard/p5-Renard-Yarn/issues/1>,
+       - <https://github.com/project-renard/p5-Renard-Yarn/issues/2>,
+       - <https://github.com/project-renard/p5-Renard-Yarn/pull/3>.
