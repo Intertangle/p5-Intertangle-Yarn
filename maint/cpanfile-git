@@ -1,0 +1,3 @@
+requires 'Alien::Graphene',
+	git => 'https://github.com/project-renard/p5-Alien-Graphene.git',
+	branch => 'master';
