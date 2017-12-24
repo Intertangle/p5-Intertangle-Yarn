@@ -7,4 +7,4 @@ native:
       - graphene
   msys2-mingw64:
     packages:
-      - mingw-w64-x86_64-graphene
+      #- mingw-w64-x86_64-graphene
