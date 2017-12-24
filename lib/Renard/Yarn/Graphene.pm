@@ -50,9 +50,11 @@ sub Inline {
 	require Hash::Merge;
 	my $glib = Renard::Incunabula::Glib->Inline($_[-1]);
 
+	my @nosearch = $^O eq 'MSWin32' ? (':nosearch') : ();
+	my @search   = $^O eq 'MSWin32' ? ( ':search' ) : ();
 	my $graphene = {
 		CCFLAGSEX => join(" ", delete $glib->{CCFLAGSEX}, Alien::Graphene->cflags),
-		LIBS => join(" ", delete $glib->{LIBS}, Alien::Graphene->libs),
+		LIBS => join(" ", @nosearch, delete $glib->{LIBS}, Alien::Graphene->libs, @search),
 		AUTO_INCLUDE => <<C,
 #include <graphene.h>
 #include <graphene-gobject.h>
