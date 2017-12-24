@@ -35,6 +35,35 @@ sub import {
 	);
 }
 
+=method Inline
+
+  use Inline C with => qw(Renard::Yarn::Graphene);
+
+Returns the flags needed to configure L<Inline::C> to use with
+C<graphene-gobject-1.0>.
+
+=cut
+sub Inline {
+	return unless $_[-1] eq 'C';
+
+	require Renard::Incunabula::Glib;
+	require Hash::Merge;
+	my $glib = Renard::Incunabula::Glib->Inline($_[-1]);
+
+	my @nosearch = $^O eq 'MSWin32' ? (':nosearch') : ();
+	my @search   = $^O eq 'MSWin32' ? ( ':search' ) : ();
+	my $graphene = {
+		CCFLAGSEX => join(" ", delete $glib->{CCFLAGSEX}, Alien::Graphene->cflags),
+		LIBS => join(" ", @nosearch, delete $glib->{LIBS}, Alien::Graphene->libs, @search),
+		AUTO_INCLUDE => <<C,
+#include <graphene.h>
+#include <graphene-gobject.h>
+C
+	};
+
+	my $merge = Hash::Merge->new('RETAINMENT_PRECEDENT');
+	$merge->merge( $glib, $graphene );
+}
 
 
 1;
