@@ -70,9 +70,11 @@ package Renard::Yarn::Graphene::DataPrinterRole {
 	use Module::Load;
 
 	BEGIN {
-		autoload Data::Printer::Filter;
-		autoload Term::ANSIColor;
-		autoload Package::Stash;
+		eval {
+			autoload Data::Printer::Filter;
+			autoload Term::ANSIColor;
+			autoload Package::Stash;
+		};
 	}
 
 	sub _data_printer {
