@@ -65,5 +65,87 @@ C
 	$merge->merge( $glib, $graphene );
 }
 
+package Renard::Yarn::Graphene::DataPrinterRole {
+	use Role::Tiny;
+	use Module::Load;
+
+	BEGIN {
+		autoload Data::Printer::Filter;
+		autoload Term::ANSIColor;
+		autoload Package::Stash;
+	}
+
+	sub _data_printer {
+		my ($self, $prop) = @_;
+
+		my $FIELDS = Package::Stash->new( ref $self )->get_symbol( '@FIELDS' );
+		my $data = {
+			map { $_ => $self->$_ } @$FIELDS
+		};
+
+		my $text = '';
+
+		$text .= $prop->{colored} ? "(@{[colored(['green'], ref($self))]}) " : "(@{[ ref($self) ]}) ";
+		$text .= Data::Printer::np($data, %$prop, _current_indent => 0, multiline => 0, );
+
+		$text;
+	}
+}
+
+
+package Renard::Yarn::Graphene::Size {
+	our @FIELDS = qw(width height);
+	use Role::Tiny::With;
+	with 'Renard::Yarn::Graphene::DataPrinterRole';
+	use overload
+		'""' => \&op_str,
+		'eq' => \&op_eq,
+		'==' => \&op_eq;
+
+	sub op_str {
+		"[w: @{[ $_[0]->width ]}, h: @{[ $_[0]->height ]}]"
+	}
+
+	sub op_eq {
+		$_[0]->width     == (Scalar::Util::blessed $_[1] ? $_[1]->width  : $_[1]->[0] )
+		&& $_[0]->height == (Scalar::Util::blessed $_[1] ? $_[1]->height : $_[1]->[1] )
+	}
+}
+
+package Renard::Yarn::Graphene::Point {
+	our @FIELDS = qw(x y);
+	use Scalar::Util;
+	use Role::Tiny::With;
+	with 'Renard::Yarn::Graphene::DataPrinterRole';
+	use overload
+		'""' => \&op_str,
+		'eq' => \&op_eq,
+		'==' => \&op_eq;
+
+	sub op_str {
+		"[x: @{[ $_[0]->x ]}, y: @{[ $_[0]->y ]}]";
+	}
+
+	sub op_eq {
+		$_[0]->x    == (Scalar::Util::blessed $_[1] ? $_[1]->x : $_[1]->[0] )
+		&& $_[0]->y == (Scalar::Util::blessed $_[1] ? $_[1]->y : $_[1]->[1] )
+	}
+}
+
+package Renard::Yarn::Graphene::Matrix {
+	use overload '""' => \&op_str;
+
+	sub op_str {
+		my $row_text = sub { "@{[ $_[0]->get_x ]} @{[ $_[0]->get_y ]} @{[ $_[0]->get_z ]} @{[ $_[0]->get_w ]}" };
+		my $text = "";
+		$text .= "[\n";
+		$text .= " "x4 . $row_text->( $_[0]->get_row(0) ) . "\n";
+		$text .= " "x4 . $row_text->( $_[0]->get_row(1) ) . "\n";
+		$text .= " "x4 . $row_text->( $_[0]->get_row(2) ) . "\n";
+		$text .= " "x4 . $row_text->( $_[0]->get_row(3) ) . "\n";
+		$text .= "]\n";
+	}
+}
+
 
 1;
