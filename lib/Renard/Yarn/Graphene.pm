@@ -135,7 +135,37 @@ package Renard::Yarn::Graphene::Point {
 }
 
 package Renard::Yarn::Graphene::Matrix {
+	use Module::Load;
 	use overload '""' => \&op_str;
+
+	sub to_ArrayRef {
+		my ($self) = @_;
+		my $data = [
+			map {
+				my $row = $self->get_row($_);
+				[ $row->get_x, $row->get_y, $row->get_z, $row->get_w ]
+			} 0..3
+		];
+
+		$data;
+	}
+
+	sub _data_printer {
+		my ($self, $prop) = @_;
+
+		eval {
+			autoload Data::Printer::Filter;
+			autoload Term::ANSIColor;
+			autoload Package::Stash;
+		};
+
+		my $text = '';
+
+		$text .= $prop->{colored} ? "(@{[colored(['green'], ref($self))]}) " : "(@{[ ref($self) ]}) ";
+		$text .= Data::Printer::np($self->to_ArrayRef, %$prop, _current_indent => 0, multiline => 0, );
+
+		$text;
+	}
 
 	sub op_str {
 		my $row_text = sub { "@{[ $_[0]->get_x ]} @{[ $_[0]->get_y ]} @{[ $_[0]->get_z ]} @{[ $_[0]->get_w ]}" };
