@@ -138,6 +138,45 @@ package Renard::Yarn::Graphene::Matrix {
 	use Module::Load;
 	use overload '""' => \&op_str;
 
+	sub new_from_arrayref {
+		my ($class, $data) = @_;
+		my $obj = $class->new;
+		$obj->init_from_arrayref( $data );
+
+		$obj;
+	}
+
+	sub new_from_float {
+		my ($class, $data) = @_;
+		my $obj = $class->new;
+		$obj->init_from_float( $data );
+
+		$obj;
+	}
+
+	sub init_from_arrayref {
+		my ($class, $data) = @_;
+
+		unless(
+			@$data == 4
+				&& @{ $data->[0] }  == 4
+				&& @{ $data->[1] }  == 4
+				&& @{ $data->[2] }  == 4
+				&& @{ $data->[3] }  == 4
+		) {
+			die "Matrix data must be a 4x4 ArrayRef";
+		}
+
+		$class->init_from_float(
+			[
+				@{ $data->[0] },
+				@{ $data->[1] },
+				@{ $data->[2] },
+				@{ $data->[3] },
+			]
+		);
+	}
+
 	sub to_ArrayRef {
 		my ($self) = @_;
 		my $data = [
