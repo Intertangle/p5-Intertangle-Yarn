@@ -112,6 +112,10 @@ package Renard::Yarn::Graphene::Size {
 		$_[0]->width     == (Scalar::Util::blessed $_[1] ? $_[1]->width  : $_[1]->[0] )
 		&& $_[0]->height == (Scalar::Util::blessed $_[1] ? $_[1]->height : $_[1]->[1] )
 	}
+
+	sub as_HashRef() {
+		+{ map { $_ => $_[0]->width } @FIELDS };
+	}
 }
 
 package Renard::Yarn::Graphene::Point {
@@ -131,6 +135,28 @@ package Renard::Yarn::Graphene::Point {
 	sub op_eq {
 		$_[0]->x    == (Scalar::Util::blessed $_[1] ? $_[1]->x : $_[1]->[0] )
 		&& $_[0]->y == (Scalar::Util::blessed $_[1] ? $_[1]->y : $_[1]->[1] )
+	}
+
+	sub as_HashRef() {
+		+{ map { $_ => $_[0]->width } @FIELDS };
+	}
+}
+
+package Renard::Yarn::Graphene::Rect {
+	our @FIELDS = qw(origin size);
+	use Role::Tiny::With;
+	with 'Renard::Yarn::Graphene::DataPrinterRole';
+
+	sub new {
+		my ($class, %args) = @_;
+
+		my $rect = Renard::Yarn::Graphene::Rect::alloc();
+		$rect->init(
+			$args{origin}->x, $args{origin}->y,
+			$args{size}->width, $args{size}->height,
+		);
+
+		$rect;
 	}
 }
 
@@ -251,6 +277,5 @@ package Renard::Yarn::Graphene::Matrix {
 		$_[0]->multiply( $_[1] );
 	}
 }
-
 
 1;
