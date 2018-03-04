@@ -192,11 +192,13 @@ package Renard::Yarn::Graphene::Matrix {
 	sub _data_printer {
 		my ($self, $prop) = @_;
 
-		eval {
-			autoload Data::Printer::Filter;
-			autoload Term::ANSIColor;
-			autoload Package::Stash;
-		};
+		BEGIN {
+			eval {
+				autoload Data::Printer::Filter;
+				autoload Term::ANSIColor;
+				autoload Package::Stash;
+			};
+		}
 
 		my $text = '';
 
