@@ -1,6 +1,6 @@
 #!/usr/bin/env perl
 
-use Test::Most tests => 3;
+use Test::Most tests => 4;
 use Modern::Perl;
 use Renard::Yarn::Graphene;
 
@@ -82,6 +82,38 @@ subtest "Matrix from ArrayRef must be correct size" => sub {
 			]
 		);
 	} qr/4x4/, 'too many columns';
+};
+
+subtest "Matrix multiply operator (matrix x matrix)" => sub {
+	my $m1 = Renard::Yarn::Graphene::Matrix->new_from_arrayref(
+		[
+			[  3, 0, 0, 0 ],
+			[  0, 4, 0, 0 ],
+			[  0, 0, 5, 0 ],
+			[  0, 0, 0, 0 ],
+		]
+	);
+	my $m2 = Renard::Yarn::Graphene::Matrix->new_from_float(
+		[ 1..16 ]
+	);
+
+	is "@{[ $m1 x $m2 ]}", <<EOF;
+[
+    3 6 9 12
+    20 24 28 32
+    45 50 55 60
+    0 0 0 0
+]
+EOF
+
+	is "@{[ $m2 x $m1 ]}", <<EOF;
+[
+    3 8 15 0
+    15 24 35 0
+    27 40 55 0
+    39 56 75 0
+]
+EOF
 };
 
 done_testing;

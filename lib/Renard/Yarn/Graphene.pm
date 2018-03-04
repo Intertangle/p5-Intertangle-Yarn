@@ -136,7 +136,9 @@ package Renard::Yarn::Graphene::Point {
 
 package Renard::Yarn::Graphene::Matrix {
 	use Module::Load;
-	use overload '""' => \&op_str;
+	use overload
+		'""' => \&op_str,
+		'x'  => \&op_matmult;
 
 	sub new_from_arrayref {
 		my ($class, $data) = @_;
@@ -217,6 +219,10 @@ package Renard::Yarn::Graphene::Matrix {
 		$text .= " "x4 . $row_text->( $_[0]->get_row(2) ) . "\n";
 		$text .= " "x4 . $row_text->( $_[0]->get_row(3) ) . "\n";
 		$text .= "]\n";
+	}
+
+	sub op_matmult {
+		$_[0]->multiply( $_[1] );
 	}
 }
 
