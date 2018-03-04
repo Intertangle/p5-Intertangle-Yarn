@@ -138,6 +138,7 @@ package Renard::Yarn::Graphene::Matrix {
 	use Module::Load;
 	use overload
 		'""' => \&op_str,
+		'*'  => \&op_transform,
 		'x'  => \&op_matmult;
 
 	sub new_from_arrayref {
@@ -219,6 +220,31 @@ package Renard::Yarn::Graphene::Matrix {
 		$text .= " "x4 . $row_text->( $_[0]->get_row(2) ) . "\n";
 		$text .= " "x4 . $row_text->( $_[0]->get_row(3) ) . "\n";
 		$text .= "]\n";
+	}
+
+	sub transform {
+		my ($matrix, $other) = @_;
+
+		my $result;
+
+		if(      $other->isa('Renard::Yarn::Graphene::Vec4') )     { $result = $matrix->transform_vec4( $other )
+		} elsif( $other->isa('Renard::Yarn::Graphene::Vec3') )     { $result = $matrix->transform_vec3( $other )
+		} elsif( $other->isa('Renard::Yarn::Graphene::Point') )    { $result = $matrix->transform_point( $other )
+		} elsif( $other->isa('Renard::Yarn::Graphene::Point3D') )  { $result = $matrix->transform_point3d( $other )
+		} elsif( $other->isa('Renard::Yarn::Graphene::Rect') )     { $result = $matrix->transform_rect( $other )
+		} elsif( $other->isa('Renard::Yarn::Graphene::Bounds') )   { $result = $matrix->transform_bounds( $other )
+		} elsif( $other->isa('Renard::Yarn::Graphene::Box') )      { $result = $matrix->transform_box( $other )
+		} elsif( $other->isa('Renard::Yarn::Graphene::Sphere') )   { $result = $matrix->transform_sphere( $other )
+		} else {
+			die "Unknown type for transformation: @{[ ref $other ]}";
+		}
+
+
+		$result;
+	}
+
+	sub op_transform {
+		$_[0]->transform( $_[1] );
 	}
 
 	sub op_matmult {

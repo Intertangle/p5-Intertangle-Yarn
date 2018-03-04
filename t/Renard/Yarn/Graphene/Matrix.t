@@ -1,6 +1,6 @@
 #!/usr/bin/env perl
 
-use Test::Most tests => 4;
+use Test::Most tests => 6;
 use Modern::Perl;
 use Renard::Yarn::Graphene;
 
@@ -114,6 +114,39 @@ EOF
     39 56 75 0
 ]
 EOF
+};
+
+subtest "Matrix transform function" => sub {
+	my $m = Renard::Yarn::Graphene::Matrix->new_from_arrayref(
+		[
+			[  3, 0, 0, 0 ],
+			[  0, 4, 0, 0 ],
+			[  0, 0, 5, 0 ],
+			[  0, 0, 0, 0 ],
+		]
+	);
+
+	subtest "Point" => sub {
+		my $p_t = $m->transform(
+			Renard::Yarn::Graphene::Point->new(
+				x => 10, y => 10
+			)
+		);
+
+		is $p_t, [ 30, 40 ], 'correct transform';
+	}
+};
+
+subtest "Matrix transform operator" => sub {
+	is( Renard::Yarn::Graphene::Matrix->new_from_arrayref(
+		[
+			[  3, 0, 0, 0 ],
+			[  0, 4, 0, 0 ],
+			[  0, 0, 5, 0 ],
+			[  0, 0, 0, 0 ],
+		]
+	) * Renard::Yarn::Graphene::Point->new( x => 10, y => 10 ),
+		[ 30, 40 ], 'correct transform');
 };
 
 done_testing;
