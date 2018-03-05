@@ -113,7 +113,7 @@ package Renard::Yarn::Graphene::Size {
 		&& $_[0]->height == (Scalar::Util::blessed $_[1] ? $_[1]->height : $_[1]->[1] )
 	}
 
-	sub as_HashRef() {
+	sub to_HashRef() {
 		+{ map { $_ => $_[0]->width } @FIELDS };
 	}
 }
@@ -137,7 +137,7 @@ package Renard::Yarn::Graphene::Point {
 		&& $_[0]->y == (Scalar::Util::blessed $_[1] ? $_[1]->y : $_[1]->[1] )
 	}
 
-	sub as_HashRef() {
+	sub to_HashRef() {
 		+{ map { $_ => $_[0]->width } @FIELDS };
 	}
 }
