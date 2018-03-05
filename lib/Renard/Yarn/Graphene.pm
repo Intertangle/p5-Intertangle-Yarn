@@ -142,6 +142,31 @@ package Renard::Yarn::Graphene::Point {
 	}
 }
 
+package Renard::Yarn::Graphene::Point3D {
+	our @FIELDS = qw(x y z);
+	use Scalar::Util;
+	use Role::Tiny::With;
+	with 'Renard::Yarn::Graphene::DataPrinterRole';
+	use overload
+		'""' => \&op_str,
+		'eq' => \&op_eq,
+		'==' => \&op_eq;
+
+	sub op_str {
+		"[x: @{[ $_[0]->x ]}, y: @{[ $_[0]->y ]}], y: @{[ $_[0]->z ]}";
+	}
+
+	sub op_eq {
+		$_[0]->x    == (Scalar::Util::blessed $_[1] ? $_[1]->x : $_[1]->[0] )
+		&& $_[0]->y == (Scalar::Util::blessed $_[1] ? $_[1]->y : $_[1]->[1] )
+		&& $_[0]->z == (Scalar::Util::blessed $_[1] ? $_[1]->z : $_[1]->[1] )
+	}
+
+	sub to_HashRef() {
+		+{ map { $_ => $_[0]->width } @FIELDS };
+	}
+}
+
 package Renard::Yarn::Graphene::Rect {
 	our @FIELDS = qw(origin size);
 	use Role::Tiny::With;
