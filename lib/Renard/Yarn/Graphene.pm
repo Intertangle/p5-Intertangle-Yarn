@@ -273,6 +273,24 @@ package Renard::Yarn::Graphene::Matrix {
 		$text .= "]\n";
 	}
 
+	sub transform_point {
+		my ($self, $point ) = @_;
+
+		my $point3d = Renard::Yarn::Graphene::Point3D->new(
+			x => $point->x,
+			y => $point->y,
+			z => 0,
+		);
+
+		my $t_point3d = $self->transform_point3d( $point3d );
+
+
+		return Renard::Yarn::Graphene::Point->new(
+			x => $t_point3d->x,
+			y => $t_point3d->y,
+		);
+	};
+
 	sub transform {
 		my ($matrix, $other) = @_;
 
