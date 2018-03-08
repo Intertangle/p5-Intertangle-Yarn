@@ -7,6 +7,7 @@ cache:
 addons:
   apt:
     packages:
+      # from Alien::Graphene
       - python3-setuptools # to install meson
       - libgirepository1.0-dev
       - aspell     # for dzil Test::PodSpelling
@@ -36,4 +37,5 @@ matrix:
     - perl: blead       # ignore failures for blead perl
 before_install:
   - export DEVOPS_BRANCH="master"
+  - export PERL_CPANM_OPT="--skip-satisfied"
   - eval "$(curl https://raw.githubusercontent.com/project-renard/devops/$DEVOPS_BRANCH/script/helper.pl | perl -- | awk '/^#START/,/^#END/ { print > "/dev/stdout"; next } { print > "/dev/stderr"}' )"
