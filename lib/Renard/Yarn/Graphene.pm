@@ -140,6 +140,15 @@ package Renard::Yarn::Graphene::Point {
 	sub to_HashRef() {
 		+{ map { $_ => $_[0]->width } @FIELDS };
 	}
+
+	sub to_Point3D {
+		my ($self) = @_;
+		my $point3d = Renard::Yarn::Graphene::Point3D->new(
+			x => $self->x,
+			y => $self->y,
+			z => 0,
+		);
+	}
 }
 
 package Renard::Yarn::Graphene::Point3D {
@@ -275,14 +284,8 @@ package Renard::Yarn::Graphene::Matrix {
 	sub transform_point {
 		my ($self, $point ) = @_;
 
-		my $point3d = Renard::Yarn::Graphene::Point3D->new(
-			x => $point->x,
-			y => $point->y,
-			z => 0,
-		);
-
+		my $point3d = $point->to_Point3D;
 		my $t_point3d = $self->transform_point3d( $point3d );
-
 
 		return Renard::Yarn::Graphene::Point->new(
 			x => $t_point3d->x,
