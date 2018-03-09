@@ -250,7 +250,6 @@ package Renard::Yarn::Graphene::Matrix {
 			eval {
 				autoload Data::Printer::Filter;
 				autoload Term::ANSIColor;
-				autoload Package::Stash;
 			};
 		}
 
