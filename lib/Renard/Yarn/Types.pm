@@ -1,4 +1,4 @@
-use Renard::Incunabula::Common::Setup;
+use Modern::Perl;
 package Renard::Yarn::Types;
 # ABSTRACT: Types for Yarn
 
