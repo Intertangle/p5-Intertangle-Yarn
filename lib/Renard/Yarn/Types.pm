@@ -5,6 +5,7 @@ package Renard::Yarn::Types;
 use Type::Library 0.008 -base,
 	-declare => [qw(
 		Point
+		Vec2
 		Size
 	)];
 use Type::Utils -all;
@@ -27,6 +28,25 @@ coerce "Point",
 	from Tuple[Num, Num],
 	via {
 		Renard::Yarn::Graphene::Point->new(
+			x => $_->[0],
+			y => $_->[1],
+		)
+	};
+
+=type Vec2
+
+A type for any reference that extends L<Renard::Yarn::Graphene::Vec2>
+
+Coercible from a C<Tuple[Num, Num]>.
+
+=cut
+class_type "Vec2",
+	{ class => 'Renard::Yarn::Graphene::Vec2' };
+
+coerce "Vec2",
+	from Tuple[Num, Num],
+	via {
+		Renard::Yarn::Graphene::Vec2->new(
 			x => $_->[0],
 			y => $_->[1],
 		)

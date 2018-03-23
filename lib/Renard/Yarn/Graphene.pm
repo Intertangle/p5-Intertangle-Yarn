@@ -176,6 +176,47 @@ package Renard::Yarn::Graphene::Point3D {
 	}
 }
 
+package Renard::Yarn::Graphene::Vec2 {
+	our @FIELDS = qw(x y);
+	use Scalar::Util;
+	use Role::Tiny::With;
+	with 'Renard::Yarn::Graphene::DataPrinterRole';
+	use overload
+		'""' => \&op_str,
+		'eq' => \&op_eq,
+		'==' => \&op_eq;
+
+	sub new {
+		my ($class, %args) = @_;
+
+		my $vec2 = Renard::Yarn::Graphene::Vec2->alloc();
+		$vec2->init( $args{x}, $args{y} );
+
+		$vec2;
+	}
+
+	sub x {
+		$_[0]->dot( Renard::Yarn::Graphene::Vec2::x_axis() );
+	}
+
+	sub y {
+		$_[0]->dot( Renard::Yarn::Graphene::Vec2::y_axis() );
+	}
+
+	sub op_str {
+		"[x: @{[ $_[0]->x ]}, y: @{[ $_[0]->y ]}]";
+	}
+
+	sub op_eq {
+		$_[0]->x    == (Scalar::Util::blessed $_[1] ? $_[1]->x : $_[1]->[0] )
+		&& $_[0]->y == (Scalar::Util::blessed $_[1] ? $_[1]->y : $_[1]->[1] )
+	}
+
+	sub to_HashRef() {
+		+{ map { $_ => $_[0]->$_ } @FIELDS };
+	}
+}
+
 package Renard::Yarn::Graphene::Rect {
 	our @FIELDS = qw(origin size);
 	use Role::Tiny::With;
