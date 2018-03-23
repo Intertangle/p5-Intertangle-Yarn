@@ -1,6 +1,6 @@
 #!/usr/bin/env perl
 
-use Test::Most tests => 4;
+use Test::Most tests => 5;
 use Modern::Perl;
 use Renard::Yarn::Graphene;
 
@@ -31,6 +31,15 @@ subtest "Point stringify" => sub {
 	my $p = Renard::Yarn::Graphene::Point->new( x => 1, y => -0.5 );
 
 	is "$p", "[x: 1, y: -0.5]";
+};
+
+subtest "HashRef" => sub {
+	my $p = Renard::Yarn::Graphene::Point->new( x => 1, y => -0.5 );
+
+	is_deeply $p->to_HashRef, {
+		x => 1,
+		y => -0.5,
+	}, 'converted to HashRef';
 };
 
 done_testing;

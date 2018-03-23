@@ -114,7 +114,7 @@ package Renard::Yarn::Graphene::Size {
 	}
 
 	sub to_HashRef() {
-		+{ map { $_ => $_[0]->width } @FIELDS };
+		+{ map { $_ => $_[0]->$_ } @FIELDS };
 	}
 }
 
@@ -138,7 +138,7 @@ package Renard::Yarn::Graphene::Point {
 	}
 
 	sub to_HashRef() {
-		+{ map { $_ => $_[0]->width } @FIELDS };
+		+{ map { $_ => $_[0]->$_ } @FIELDS };
 	}
 
 	sub to_Point3D {
@@ -172,7 +172,7 @@ package Renard::Yarn::Graphene::Point3D {
 	}
 
 	sub to_HashRef() {
-		+{ map { $_ => $_[0]->width } @FIELDS };
+		+{ map { $_ => $_[0]->$_ } @FIELDS };
 	}
 }
 
