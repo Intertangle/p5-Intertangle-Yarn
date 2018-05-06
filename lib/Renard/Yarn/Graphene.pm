@@ -215,6 +215,61 @@ package Renard::Yarn::Graphene::Vec2 {
 	sub to_HashRef() {
 		+{ map { $_ => $_[0]->$_ } @FIELDS };
 	}
+
+	sub to_Vec3 {
+		my ($self) = @_;
+		my $point3d = Renard::Yarn::Graphene::Vec3->new(
+			x => $self->x,
+			y => $self->y,
+			z => 0,
+		);
+	}
+}
+
+package Renard::Yarn::Graphene::Vec3 {
+	our @FIELDS = qw(x y z);
+	use Scalar::Util;
+	use Role::Tiny::With;
+	with 'Renard::Yarn::Graphene::DataPrinterRole';
+	use overload
+		'""' => \&op_str,
+		'eq' => \&op_eq,
+		'==' => \&op_eq;
+
+	sub new {
+		my ($class, %args) = @_;
+
+		my $vec3 = Renard::Yarn::Graphene::Vec3->alloc();
+		$vec3->init( $args{x}, $args{y}, $args{z} );
+
+		$vec3;
+	}
+
+	sub x {
+		$_[0]->dot( Renard::Yarn::Graphene::Vec3::x_axis() );
+	}
+
+	sub y {
+		$_[0]->dot( Renard::Yarn::Graphene::Vec3::y_axis() );
+	}
+
+	sub z {
+		$_[0]->dot( Renard::Yarn::Graphene::Vec3::z_axis() );
+	}
+
+	sub op_str {
+		"[x: @{[ $_[0]->x ]}, y: @{[ $_[0]->y ]}, z: @{[ $_[0]->z ]}]";
+	}
+
+	sub op_eq {
+		$_[0]->x    == (Scalar::Util::blessed $_[1] ? $_[1]->x : $_[1]->[0] )
+		&& $_[0]->y == (Scalar::Util::blessed $_[1] ? $_[1]->y : $_[1]->[1] )
+		&& $_[0]->z == (Scalar::Util::blessed $_[1] ? $_[1]->z : $_[1]->[2] )
+	}
+
+	sub to_HashRef() {
+		+{ map { $_ => $_[0]->$_ } @FIELDS };
+	}
 }
 
 package Renard::Yarn::Graphene::Rect {
