@@ -7,6 +7,7 @@ use Type::Library 0.008 -base,
 		Point
 		Vec2
 		Size
+		AngleDegrees
 	)];
 use Type::Utils -all;
 use Types::Standard qw(Tuple Num);
@@ -70,6 +71,13 @@ coerce "Size",
 			height => $_->[1],
 		)
 	};
+
+=type AngleDegrees
+
+A type for an angle in degrees. Aliased to L<Num>.
+
+=cut
+declare "AngleDegrees", parent => Num;
 
 
 1;
