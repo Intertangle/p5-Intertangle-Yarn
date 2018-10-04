@@ -16,8 +16,10 @@ use Env qw(@GI_TYPELIB_PATH @PATH);
 use Alien::Graphene;
 
 sub import {
+	my @search_path = ();
 	if( Alien::Graphene->install_type eq 'share' ) {
 		unshift @GI_TYPELIB_PATH, Alien::Graphene->gi_typelib_path;
+		@search_path = ( search_path => Alien::Graphene->gi_typelib_path );
 		if( $^O eq 'MSWin32' ) {
 			push @PATH, Alien::Graphene->rpath;
 		} else {
@@ -32,6 +34,7 @@ sub import {
 		version  => $_GRAPHENE_VERSION,
 		package  => $_GRAPHENE_PACKAGE,
 		flatten_array_ref_return_for => \@_FLATTEN_ARRAY_REF_RETURN_FOR,
+		@search_path,
 	);
 }
 
