@@ -8,6 +8,7 @@ use Type::Library 0.008 -base,
 		Vec2
 		Size
 		AngleDegrees
+		Rect
 	)];
 use Type::Utils -all;
 use Types::Standard qw(Tuple Num);
@@ -78,6 +79,14 @@ A type for an angle in degrees. Aliased to L<Num>.
 
 =cut
 declare "AngleDegrees", parent => Num;
+
+=type Rect
+
+A type for any reference that extends L<Renard::Yarn::Graphene::Rect>
+
+=cut
+class_type "Rect",
+	{ class => 'Renard::Yarn::Graphene::Rect' };
 
 
 1;
