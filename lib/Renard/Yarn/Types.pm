@@ -9,6 +9,7 @@ use Type::Library 0.008 -base,
 		Size
 		AngleDegrees
 		Rect
+		Matrix
 	)];
 use Type::Utils -all;
 use Types::Standard qw(Tuple Num);
@@ -88,5 +89,12 @@ A type for any reference that extends L<Renard::Yarn::Graphene::Rect>
 class_type "Rect",
 	{ class => 'Renard::Yarn::Graphene::Rect' };
 
+=type Matrix
+
+A type for any reference that extends L<Renard::Yarn::Graphene::Matrix>
+
+=cut
+class_type "Matrix",
+	{ class => 'Renard::Yarn::Graphene::Matrix' };
 
 1;
