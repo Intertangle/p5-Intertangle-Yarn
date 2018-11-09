@@ -116,7 +116,7 @@ package Renard::Yarn::Graphene::Size {
 		&& $_[0]->height == (Scalar::Util::blessed $_[1] ? $_[1]->height : $_[1]->[1] )
 	}
 
-	sub to_HashRef() {
+	sub to_HashRef {
 		+{ map { $_ => $_[0]->$_ } @FIELDS };
 	}
 }
@@ -148,7 +148,7 @@ package Renard::Yarn::Graphene::Point {
 		);
 	}
 
-	sub to_HashRef() {
+	sub to_HashRef {
 		+{ map { $_ => $_[0]->$_ } @FIELDS };
 	}
 
@@ -186,7 +186,7 @@ package Renard::Yarn::Graphene::Point3D {
 		&& $_[0]->z == (Scalar::Util::blessed $_[1] ? $_[1]->z : $_[1]->[1] )
 	}
 
-	sub to_HashRef() {
+	sub to_HashRef {
 		+{ map { $_ => $_[0]->$_ } @FIELDS };
 	}
 }
@@ -232,7 +232,7 @@ package Renard::Yarn::Graphene::Vec2 {
 		$_[0]->negate;
 	}
 
-	sub to_HashRef() {
+	sub to_HashRef {
 		+{ map { $_ => $_[0]->$_ } @FIELDS };
 	}
 
@@ -287,7 +287,7 @@ package Renard::Yarn::Graphene::Vec3 {
 		&& $_[0]->z == (Scalar::Util::blessed $_[1] ? $_[1]->z : $_[1]->[2] )
 	}
 
-	sub to_HashRef() {
+	sub to_HashRef {
 		+{ map { $_ => $_[0]->$_ } @FIELDS };
 	}
 }
