@@ -129,7 +129,8 @@ package Renard::Yarn::Graphene::Point {
 	use overload
 		'""' => \&op_str,
 		'eq' => \&op_eq,
-		'==' => \&op_eq;
+		'==' => \&op_eq,
+		'neg' => \&op_neg;
 
 	sub op_str {
 		"[x: @{[ $_[0]->x ]}, y: @{[ $_[0]->y ]}]";
@@ -138,6 +139,13 @@ package Renard::Yarn::Graphene::Point {
 	sub op_eq {
 		$_[0]->x    == (Scalar::Util::blessed $_[1] ? $_[1]->x : $_[1]->[0] )
 		&& $_[0]->y == (Scalar::Util::blessed $_[1] ? $_[1]->y : $_[1]->[1] )
+	}
+
+	sub op_neg {
+		Renard::Yarn::Graphene::Point->new(
+			x => - $_[0]->x,
+			y => - $_[0]->y,
+		);
 	}
 
 	sub to_HashRef() {
@@ -187,7 +195,8 @@ package Renard::Yarn::Graphene::Vec2 {
 	use overload
 		'""' => \&op_str,
 		'eq' => \&op_eq,
-		'==' => \&op_eq;
+		'==' => \&op_eq,
+		'neg' => \&op_neg;
 
 	sub new {
 		my ($class, %args) = @_;
@@ -213,6 +222,10 @@ package Renard::Yarn::Graphene::Vec2 {
 	sub op_eq {
 		$_[0]->x    == (Scalar::Util::blessed $_[1] ? $_[1]->x : $_[1]->[0] )
 		&& $_[0]->y == (Scalar::Util::blessed $_[1] ? $_[1]->y : $_[1]->[1] )
+	}
+
+	sub op_neg {
+		$_[0]->negate;
 	}
 
 	sub to_HashRef() {
