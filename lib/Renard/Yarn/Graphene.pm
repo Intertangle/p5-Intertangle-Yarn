@@ -152,6 +152,10 @@ package Renard::Yarn::Graphene::Point {
 		+{ map { $_ => $_[0]->$_ } @FIELDS };
 	}
 
+	sub to_ArrayRef {
+		[ map { $_[0]->$_ } @FIELDS ];
+	}
+
 	sub to_Point3D {
 		my ($self) = @_;
 		my $point3d = Renard::Yarn::Graphene::Point3D->new(
