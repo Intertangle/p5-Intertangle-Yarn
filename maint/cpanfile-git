@@ -1,6 +1,6 @@
 requires 'Alien::Graphene',
 	git => 'https://github.com/project-renard/p5-Alien-Graphene.git',
 	branch => 'master';
-requires 'Renard::Incunabula::API::Glib',
-	git => 'https://github.com/project-renard/p5-Renard-Incunabula-API-Glib.git',
+requires 'Renard::API::Glib',
+	git => 'https://github.com/project-renard/p5-Renard-API-Glib.git',
 	branch => 'master';

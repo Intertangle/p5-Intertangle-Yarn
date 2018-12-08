@@ -49,9 +49,9 @@ C<graphene-gobject-1.0>.
 sub Inline {
 	return unless $_[-1] eq 'C';
 
-	require Renard::Incunabula::API::Glib;
+	require Renard::API::Glib;
 	require Hash::Merge;
-	my $glib = Renard::Incunabula::API::Glib->Inline($_[-1]);
+	my $glib = Renard::API::Glib->Inline($_[-1]);
 
 	my @nosearch = $^O eq 'MSWin32' ? (':nosearch') : ();
 	my @search   = $^O eq 'MSWin32' ? ( ':search' ) : ();
