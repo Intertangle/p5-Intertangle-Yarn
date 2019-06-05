@@ -1,7 +1,7 @@
 native:
   debian:
     packages:
-      - gir1.2-graphene-1.0
+      #- gir1.2-graphene-1.0
   macos-homebrew:
     packages:
       - graphene
