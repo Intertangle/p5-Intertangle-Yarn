@@ -1,7 +1,7 @@
 #!/usr/bin/env perl
 
 use Test::Most tests => 3;
-use Renard::Yarn::Types qw(Point Vec2 Size);
+use Intertangle::Yarn::Types qw(Point Vec2 Size);
 
 subtest "Point" => sub {
 	my $p = Point->coerce( [ 2, 7 ] );

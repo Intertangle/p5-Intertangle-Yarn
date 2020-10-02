@@ -3,10 +3,10 @@
 use Test::Most tests => 2;
 use Modern::Perl;
 use Module::Load;
-use Renard::Yarn::Graphene;
+use Intertangle::Yarn::Graphene;
 
 subtest "Loaded Graphene" => sub {
-	can_ok 'Renard::Yarn::Graphene::Point', qw(new distance);
+	can_ok 'Intertangle::Yarn::Graphene::Point', qw(new distance);
 };
 
 subtest 'Access Graphene::Point using Inline::C' => sub {
@@ -15,7 +15,7 @@ subtest 'Access Graphene::Point using Inline::C' => sub {
 		plan skip_all => "Inline::C not installed" if $error;
 	};
 
-	Inline->import( with => qw(Renard::Yarn::Graphene) );
+	Inline->import( with => qw(Intertangle::Yarn::Graphene) );
 
 	Inline->bind( C => q|
 		const graphene_point_t* sv_to_graphene_point(SV* obj) {
@@ -38,7 +38,7 @@ subtest 'Access Graphene::Point using Inline::C' => sub {
 		}
 	|, ENABLE => AUTOWRAP => );
 
-	my $point = Renard::Yarn::Graphene::Point->new( x => 42, y => 3 );
+	my $point = Intertangle::Yarn::Graphene::Point->new( x => 42, y => 3 );
 	is( get_x($point), $point->x, 'Got x element');
 	is( get_y($point), $point->y, 'Got y element');
 };

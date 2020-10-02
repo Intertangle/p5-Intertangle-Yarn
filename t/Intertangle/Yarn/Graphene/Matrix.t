@@ -2,10 +2,10 @@
 
 use Test::Most tests => 6;
 use Modern::Perl;
-use Renard::Yarn::Graphene;
+use Intertangle::Yarn::Graphene;
 
 subtest "Matrix stringify" => sub {
-	my $m = Renard::Yarn::Graphene::Matrix->new;
+	my $m = Intertangle::Yarn::Graphene::Matrix->new;
 	$m->init_from_float([ 0..15 ]);
 
 	is "$m", <<EOF;
@@ -19,7 +19,7 @@ EOF
 };
 
 subtest "Matrix from ArrayRef" => sub {
-	my $m = Renard::Yarn::Graphene::Matrix->new_from_arrayref(
+	my $m = Intertangle::Yarn::Graphene::Matrix->new_from_arrayref(
 		[
 			[ 1, 0, 0, 0 ],
 			[ 0, 1, 0, 0 ],
@@ -40,7 +40,7 @@ EOF
 
 subtest "Matrix from ArrayRef must be correct size" => sub {
 	throws_ok {
-		Renard::Yarn::Graphene::Matrix->new_from_arrayref(
+		Intertangle::Yarn::Graphene::Matrix->new_from_arrayref(
 			[
 				[ 1, 0, 0, 0 ],
 				[ 0, 0, 1, 0 ],
@@ -50,7 +50,7 @@ subtest "Matrix from ArrayRef must be correct size" => sub {
 	} qr/4x4/, 'too few rows';
 
 	throws_ok {
-		Renard::Yarn::Graphene::Matrix->new_from_arrayref(
+		Intertangle::Yarn::Graphene::Matrix->new_from_arrayref(
 			[
 				[ 1, 0, 0, 0 ],
 				[ 0, 0, 1, 0 ],
@@ -62,7 +62,7 @@ subtest "Matrix from ArrayRef must be correct size" => sub {
 	} qr/4x4/, 'too many rows';
 
 	throws_ok {
-		Renard::Yarn::Graphene::Matrix->new_from_arrayref(
+		Intertangle::Yarn::Graphene::Matrix->new_from_arrayref(
 			[
 				[ 1, 0, 0, 0 ],
 				[ 0, 0, 0, 0 ],
@@ -73,7 +73,7 @@ subtest "Matrix from ArrayRef must be correct size" => sub {
 	} qr/4x4/, 'too few columns';
 
 	throws_ok {
-		Renard::Yarn::Graphene::Matrix->new_from_arrayref(
+		Intertangle::Yarn::Graphene::Matrix->new_from_arrayref(
 			[
 				[ 1, 0, 0, 0 ],
 				[ 0, 0, 0, 0,   1 ],
@@ -85,7 +85,7 @@ subtest "Matrix from ArrayRef must be correct size" => sub {
 };
 
 subtest "Matrix multiply operator (matrix x matrix)" => sub {
-	my $m1 = Renard::Yarn::Graphene::Matrix->new_from_arrayref(
+	my $m1 = Intertangle::Yarn::Graphene::Matrix->new_from_arrayref(
 		[
 			[  3, 0, 0, 0 ],
 			[  0, 4, 0, 0 ],
@@ -93,7 +93,7 @@ subtest "Matrix multiply operator (matrix x matrix)" => sub {
 			[  0, 0, 0, 0 ],
 		]
 	);
-	my $m2 = Renard::Yarn::Graphene::Matrix->new_from_float(
+	my $m2 = Intertangle::Yarn::Graphene::Matrix->new_from_float(
 		[ 1..16 ]
 	);
 
@@ -117,7 +117,7 @@ EOF
 };
 
 subtest "Matrix transform function" => sub {
-	my $m = Renard::Yarn::Graphene::Matrix->new_from_arrayref(
+	my $m = Intertangle::Yarn::Graphene::Matrix->new_from_arrayref(
 		[
 			[  3, 0, 0, 0 ],
 			[  0, 4, 0, 0 ],
@@ -128,7 +128,7 @@ subtest "Matrix transform function" => sub {
 
 	subtest "Point" => sub {
 		my $p_t = $m->transform(
-			Renard::Yarn::Graphene::Point->new(
+			Intertangle::Yarn::Graphene::Point->new(
 				x => 10, y => 10
 			)
 		);
@@ -138,14 +138,14 @@ subtest "Matrix transform function" => sub {
 };
 
 subtest "Matrix transform operator" => sub {
-	is( Renard::Yarn::Graphene::Matrix->new_from_arrayref(
+	is( Intertangle::Yarn::Graphene::Matrix->new_from_arrayref(
 		[
 			[  3, 0, 0, 0 ],
 			[  0, 4, 0, 0 ],
 			[  0, 0, 5, 0 ],
 			[  0, 0, 0, 0 ],
 		]
-	) * Renard::Yarn::Graphene::Point->new( x => 10, y => 10 ),
+	) * Intertangle::Yarn::Graphene::Point->new( x => 10, y => 10 ),
 		[ 30, 40 ], 'correct transform');
 };
 

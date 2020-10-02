@@ -1,5 +1,5 @@
 use Modern::Perl;
-package Renard::Yarn::Graphene;
+package Intertangle::Yarn::Graphene;
 # ABSTRACT: Load the Graphene graphic types library
 
 use Glib::Object::Introspection;
@@ -40,7 +40,7 @@ sub import {
 
 =method Inline
 
-  use Inline C with => qw(Renard::Yarn::Graphene);
+  use Inline C with => qw(Intertangle::Yarn::Graphene);
 
 Returns the flags needed to configure L<Inline::C> to use with
 C<graphene-gobject-1.0>.
@@ -49,9 +49,9 @@ C<graphene-gobject-1.0>.
 sub Inline {
 	return unless $_[-1] eq 'C';
 
-	require Renard::API::Glib;
+	require Intertangle::API::Glib;
 	require Hash::Merge;
-	my $glib = Renard::API::Glib->Inline($_[-1]);
+	my $glib = Intertangle::API::Glib->Inline($_[-1]);
 
 	my @nosearch = $^O eq 'MSWin32' ? (':nosearch') : ();
 	my @search   = $^O eq 'MSWin32' ? ( ':search' ) : ();
@@ -68,7 +68,7 @@ C
 	$merge->merge( $glib, $graphene );
 }
 
-package Renard::Yarn::Graphene::DataPrinterRole {
+package Intertangle::Yarn::Graphene::DataPrinterRole {
 	use Role::Tiny;
 	use Module::Load;
 
@@ -98,10 +98,10 @@ package Renard::Yarn::Graphene::DataPrinterRole {
 }
 
 
-package Renard::Yarn::Graphene::Size {
+package Intertangle::Yarn::Graphene::Size {
 	our @FIELDS = qw(width height);
 	use Role::Tiny::With;
-	with 'Renard::Yarn::Graphene::DataPrinterRole';
+	with 'Intertangle::Yarn::Graphene::DataPrinterRole';
 	use overload
 		'""' => \&op_str,
 		'eq' => \&op_eq,
@@ -121,11 +121,11 @@ package Renard::Yarn::Graphene::Size {
 	}
 }
 
-package Renard::Yarn::Graphene::Point {
+package Intertangle::Yarn::Graphene::Point {
 	our @FIELDS = qw(x y);
 	use Scalar::Util;
 	use Role::Tiny::With;
-	with 'Renard::Yarn::Graphene::DataPrinterRole';
+	with 'Intertangle::Yarn::Graphene::DataPrinterRole';
 	use overload
 		'""' => \&op_str,
 		'eq' => \&op_eq,
@@ -142,7 +142,7 @@ package Renard::Yarn::Graphene::Point {
 	}
 
 	sub op_neg {
-		Renard::Yarn::Graphene::Point->new(
+		Intertangle::Yarn::Graphene::Point->new(
 			x => - $_[0]->x,
 			y => - $_[0]->y,
 		);
@@ -158,7 +158,7 @@ package Renard::Yarn::Graphene::Point {
 
 	sub to_Point3D {
 		my ($self) = @_;
-		my $point3d = Renard::Yarn::Graphene::Point3D->new(
+		my $point3d = Intertangle::Yarn::Graphene::Point3D->new(
 			x => $self->x,
 			y => $self->y,
 			z => 0,
@@ -166,11 +166,11 @@ package Renard::Yarn::Graphene::Point {
 	}
 }
 
-package Renard::Yarn::Graphene::Point3D {
+package Intertangle::Yarn::Graphene::Point3D {
 	our @FIELDS = qw(x y z);
 	use Scalar::Util;
 	use Role::Tiny::With;
-	with 'Renard::Yarn::Graphene::DataPrinterRole';
+	with 'Intertangle::Yarn::Graphene::DataPrinterRole';
 	use overload
 		'""' => \&op_str,
 		'eq' => \&op_eq,
@@ -191,11 +191,11 @@ package Renard::Yarn::Graphene::Point3D {
 	}
 }
 
-package Renard::Yarn::Graphene::Vec2 {
+package Intertangle::Yarn::Graphene::Vec2 {
 	our @FIELDS = qw(x y);
 	use Scalar::Util;
 	use Role::Tiny::With;
-	with 'Renard::Yarn::Graphene::DataPrinterRole';
+	with 'Intertangle::Yarn::Graphene::DataPrinterRole';
 	use overload
 		'""' => \&op_str,
 		'eq' => \&op_eq,
@@ -205,18 +205,18 @@ package Renard::Yarn::Graphene::Vec2 {
 	sub new {
 		my ($class, %args) = @_;
 
-		my $vec2 = Renard::Yarn::Graphene::Vec2->alloc();
+		my $vec2 = Intertangle::Yarn::Graphene::Vec2->alloc();
 		$vec2->init( $args{x}, $args{y} );
 
 		$vec2;
 	}
 
 	sub x {
-		$_[0]->dot( Renard::Yarn::Graphene::Vec2::x_axis() );
+		$_[0]->dot( Intertangle::Yarn::Graphene::Vec2::x_axis() );
 	}
 
 	sub y {
-		$_[0]->dot( Renard::Yarn::Graphene::Vec2::y_axis() );
+		$_[0]->dot( Intertangle::Yarn::Graphene::Vec2::y_axis() );
 	}
 
 	sub op_str {
@@ -238,7 +238,7 @@ package Renard::Yarn::Graphene::Vec2 {
 
 	sub to_Vec3 {
 		my ($self) = @_;
-		my $point3d = Renard::Yarn::Graphene::Vec3->new(
+		my $point3d = Intertangle::Yarn::Graphene::Vec3->new(
 			x => $self->x,
 			y => $self->y,
 			z => 0,
@@ -246,11 +246,11 @@ package Renard::Yarn::Graphene::Vec2 {
 	}
 }
 
-package Renard::Yarn::Graphene::Vec3 {
+package Intertangle::Yarn::Graphene::Vec3 {
 	our @FIELDS = qw(x y z);
 	use Scalar::Util;
 	use Role::Tiny::With;
-	with 'Renard::Yarn::Graphene::DataPrinterRole';
+	with 'Intertangle::Yarn::Graphene::DataPrinterRole';
 	use overload
 		'""' => \&op_str,
 		'eq' => \&op_eq,
@@ -259,22 +259,22 @@ package Renard::Yarn::Graphene::Vec3 {
 	sub new {
 		my ($class, %args) = @_;
 
-		my $vec3 = Renard::Yarn::Graphene::Vec3->alloc();
+		my $vec3 = Intertangle::Yarn::Graphene::Vec3->alloc();
 		$vec3->init( $args{x}, $args{y}, $args{z} );
 
 		$vec3;
 	}
 
 	sub x {
-		$_[0]->dot( Renard::Yarn::Graphene::Vec3::x_axis() );
+		$_[0]->dot( Intertangle::Yarn::Graphene::Vec3::x_axis() );
 	}
 
 	sub y {
-		$_[0]->dot( Renard::Yarn::Graphene::Vec3::y_axis() );
+		$_[0]->dot( Intertangle::Yarn::Graphene::Vec3::y_axis() );
 	}
 
 	sub z {
-		$_[0]->dot( Renard::Yarn::Graphene::Vec3::z_axis() );
+		$_[0]->dot( Intertangle::Yarn::Graphene::Vec3::z_axis() );
 	}
 
 	sub op_str {
@@ -292,15 +292,15 @@ package Renard::Yarn::Graphene::Vec3 {
 	}
 }
 
-package Renard::Yarn::Graphene::Rect {
+package Intertangle::Yarn::Graphene::Rect {
 	our @FIELDS = qw(origin size);
 	use Role::Tiny::With;
-	with 'Renard::Yarn::Graphene::DataPrinterRole';
+	with 'Intertangle::Yarn::Graphene::DataPrinterRole';
 
 	sub new {
 		my ($class, %args) = @_;
 
-		my $rect = Renard::Yarn::Graphene::Rect::alloc();
+		my $rect = Intertangle::Yarn::Graphene::Rect::alloc();
 		$rect->init(
 			$args{origin}->x, $args{origin}->y,
 			$args{size}->width, $args{size}->height,
@@ -310,7 +310,7 @@ package Renard::Yarn::Graphene::Rect {
 	}
 }
 
-package Renard::Yarn::Graphene::Matrix {
+package Intertangle::Yarn::Graphene::Matrix {
 	use Module::Load;
 	use overload
 		'""' => \&op_str,
@@ -403,7 +403,7 @@ package Renard::Yarn::Graphene::Matrix {
 		my $point3d = $point->to_Point3D;
 		my $t_point3d = $self->transform_point3d( $point3d );
 
-		return Renard::Yarn::Graphene::Point->new(
+		return Intertangle::Yarn::Graphene::Point->new(
 			x => $t_point3d->x,
 			y => $t_point3d->y,
 		);
@@ -414,14 +414,14 @@ package Renard::Yarn::Graphene::Matrix {
 
 		my $result;
 
-		if(      $other->isa('Renard::Yarn::Graphene::Vec4') )     { $result = $matrix->transform_vec4( $other )
-		} elsif( $other->isa('Renard::Yarn::Graphene::Vec3') )     { $result = $matrix->transform_vec3( $other )
-		} elsif( $other->isa('Renard::Yarn::Graphene::Point') )    { $result = $matrix->transform_point( $other )
-		} elsif( $other->isa('Renard::Yarn::Graphene::Point3D') )  { $result = $matrix->transform_point3d( $other )
-		} elsif( $other->isa('Renard::Yarn::Graphene::Rect') )     { $result = $matrix->transform_rect( $other )
-		} elsif( $other->isa('Renard::Yarn::Graphene::Bounds') )   { $result = $matrix->transform_bounds( $other )
-		} elsif( $other->isa('Renard::Yarn::Graphene::Box') )      { $result = $matrix->transform_box( $other )
-		} elsif( $other->isa('Renard::Yarn::Graphene::Sphere') )   { $result = $matrix->transform_sphere( $other )
+		if(      $other->isa('Intertangle::Yarn::Graphene::Vec4') )     { $result = $matrix->transform_vec4( $other )
+		} elsif( $other->isa('Intertangle::Yarn::Graphene::Vec3') )     { $result = $matrix->transform_vec3( $other )
+		} elsif( $other->isa('Intertangle::Yarn::Graphene::Point') )    { $result = $matrix->transform_point( $other )
+		} elsif( $other->isa('Intertangle::Yarn::Graphene::Point3D') )  { $result = $matrix->transform_point3d( $other )
+		} elsif( $other->isa('Intertangle::Yarn::Graphene::Rect') )     { $result = $matrix->transform_rect( $other )
+		} elsif( $other->isa('Intertangle::Yarn::Graphene::Bounds') )   { $result = $matrix->transform_bounds( $other )
+		} elsif( $other->isa('Intertangle::Yarn::Graphene::Box') )      { $result = $matrix->transform_box( $other )
+		} elsif( $other->isa('Intertangle::Yarn::Graphene::Sphere') )   { $result = $matrix->transform_sphere( $other )
 		} else {
 			die "Unknown type for transformation: @{[ ref $other ]}";
 		}

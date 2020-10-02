@@ -2,16 +2,16 @@
 
 use Test::Most tests => 2;
 use Modern::Perl;
-use Renard::Yarn::Graphene;
+use Intertangle::Yarn::Graphene;
 
 subtest "Size equality operator" => sub {
-	my $s = Renard::Yarn::Graphene::Size->new( width => 10, height => 20 );
+	my $s = Intertangle::Yarn::Graphene::Size->new( width => 10, height => 20 );
 
 	is $s, [10, 20];
 };
 
 subtest "Size stringify" => sub {
-	my $s = Renard::Yarn::Graphene::Size->new( width => 10, height => 20 );
+	my $s = Intertangle::Yarn::Graphene::Size->new( width => 10, height => 20 );
 
 	is "$s", "[w: 10, h: 20]";
 };
