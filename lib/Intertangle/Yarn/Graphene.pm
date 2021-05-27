@@ -81,7 +81,7 @@ package Intertangle::Yarn::Graphene::DataPrinterRole {
 	}
 
 	sub _data_printer {
-		my ($self, $prop) = @_;
+		my ($self, $ddp) = @_;
 
 		my $FIELDS = Package::Stash->new( ref $self )->get_symbol( '@FIELDS' );
 		my $data = {
@@ -90,8 +90,12 @@ package Intertangle::Yarn::Graphene::DataPrinterRole {
 
 		my $text = '';
 
-		$text .= $prop->{colored} ? "(@{[colored(['green'], ref($self))]}) " : "(@{[ ref($self) ]}) ";
-		$text .= Data::Printer::np($data, %$prop, _current_indent => 0, multiline => 0, );
+		$text .= "(";
+		$text .= $ddp->maybe_colorize( ref($self), 'class' );
+		$text .= ") ";
+		my $ml_save = $ddp->multiline(0);
+		$text .= $ddp->parse($data);
+		$ddp->multiline($ml_save);
 
 		$text;
 	}
@@ -369,7 +373,7 @@ package Intertangle::Yarn::Graphene::Matrix {
 	}
 
 	sub _data_printer {
-		my ($self, $prop) = @_;
+		my ($self, $ddp) = @_;
 
 		BEGIN {
 			eval {
@@ -380,8 +384,12 @@ package Intertangle::Yarn::Graphene::Matrix {
 
 		my $text = '';
 
-		$text .= $prop->{colored} ? "(@{[colored(['green'], ref($self))]}) " : "(@{[ ref($self) ]}) ";
-		$text .= Data::Printer::np($self->to_ArrayRef, %$prop, _current_indent => 0, multiline => 0, );
+		$text .= "(";
+		$text .= $ddp->maybe_colorize( ref($self), 'class' );
+		$text .= ") ";
+		my $ml_save = $ddp->multiline(0);
+		$text .= $ddp->parse($self->to_ArrayRef);
+		$ddp->multiline($ml_save);
 
 		$text;
 	}
